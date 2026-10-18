@@ -37,16 +37,35 @@
 		Painted
 	
 	:name_with_color:
-		Painted {color}
-	
-	:tile_name:
-		Painted Tile
+		{color capital} Paint
 	
 	:description:
-		Played colors must be ordered by hue. {+status_value|:plus_status_tile_value:} damage taken when unplayed.
+		Played colors must be ordered by hue. +1 damage taken when unplayed, regardless of tile value.
+		
+	:exclusive_with:
+		{:position_statuses:}
 	
 	:flags:
-		harmful
+		harmful shared
+		
+	:red:
+		red
+	
+	:yellow:
+		yellow
+	
+	:green:
+		green
+	
+	:cyan:
+		cyan
+	
+	:blue:
+		blue
+		
+	:magenta:
+		magenta
+	
 
 :arc_lightning:
 	:name:

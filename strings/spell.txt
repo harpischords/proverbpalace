@@ -45,6 +45,22 @@
 	
 	:description:
 		Convert a tile and a random neighboring tile to mutagen.
+
+:swatchgun:
+	:name:
+		Swatchgun
+	
+	:charge_category:
+		rare
+	
+	:max_charge:
+		2
+	
+	:label:
+		Paint + hole
+	
+	:description:
+		Randomly paint four tiles. Hole punch one of them.
 	
 :brass_knuckles:
 	:name:

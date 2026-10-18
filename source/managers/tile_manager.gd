@@ -227,6 +227,19 @@ func _on_word_builder_finished_updating_stats(words):
 			word_builder.intent_container,
 			ProverbPalaceCustomIntent.COUNTER_INTENT,{damage=counter_amt},get_counter_tiles(),true
 		)
+	
+	try_add_paint_warning(words)
+
+
+func try_add_paint_warning(words: WordList):
+	var word_builder: WordBuilder = Game.word_builder
+	if word_builder.word_hint.warning_key == "":
+		for tile in word_builder.tiles:
+			var painted = tile.get_status("painted") as PaintedStatus
+			
+			if painted and painted.invalidates_word():
+				pass
+				
 
 func init_word_builder(word_builder: WordBuilder):
 	word_builder.tiles_updated.connect(

@@ -1,11 +1,14 @@
 :pda:
 	:put_away:
-		{"Put Away"}
+		Put Away
 
 :word_warnings:
 	:already_in_album:
 		“{letter capital}” is already in the album!
-
+	:painted:
+		{this_color capital} can't go between {color_left} and {color_right}
+	
+	
 :linked_color:
 	:fuzzy:
 		fuzzy

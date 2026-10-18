@@ -41,7 +41,7 @@ const SPELLS: Dictionary[String, String] = {
 	COLOR_BELT = "color_belt",
 	COUNTER_COUNTER = "counter_counter",
 	SEWING_NEEDLE = "sewing_needle",
-	
+	SWATCHGUN = "swatchgun"
 	
 }
 
@@ -83,6 +83,7 @@ var SPELL_CATEGORIES: Dictionary[String, Array] = {
 		SPELLS.CHEAP_BEER,
 		SPELLS.COLOR_BELT,
 		SPELLS.COUNTER_COUNTER,
+		SPELLS.SWATCHGUN,
 	],
 	Globals.SPELL_CATEGORY.DEFENSIVE: [
 		SPELLS.TOY_CAMERA,
@@ -267,6 +268,7 @@ func get_spell_pool(category: String = "") -> Dictionary[String, float]:
 		SPELLS.COLOR_BELT: BASE_WEIGHT*UNPLAYTESTED_COEFF*COOP_BAN_COEFF,
 		SPELLS.COUNTER_COUNTER: BASE_WEIGHT*UNPLAYTESTED_COEFF*COOP_BAN_COEFF,
 		SPELLS.SEWING_NEEDLE: BASE_WEIGHT*UNPLAYTESTED_COEFF,
+		SPELLS.SWATCHGUN: BASE_WEIGHT*UNPLAYTESTED_COEFF*0.,
 	}
 	
 	var category_pool: Array = SPELL_CATEGORIES.get(category, [])

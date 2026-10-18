@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dybc3dwgstmha"]
+
+[ext_resource type="Script" uid="uid://dna0vadsixgnf" path="res://mods/proverbpalace/source/effects/painted_overlay.gd" id="1_2bjyj"]
+[ext_resource type="Texture2D" uid="uid://byp6uxiqul64l" path="res://mods/proverbpalace/arte/tiles/paint_overlay.png" id="1_w6w76"]
+
+[node name="PaintedOverlay" type="Node2D" unique_id=1070880568]
+modulate = Color(1, 1, 1, 0.85882354)
+use_parent_material = true
+script = ExtResource("1_2bjyj")
+color = 4
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=37494979]
+modulate = Color(0.42913303, 0.38078916, 0.8119371, 1)
+use_parent_material = true
+texture = ExtResource("1_w6w76")
+hframes = 3
+frame = 1

@@ -30,7 +30,12 @@ func _status_connect() -> void:
 		overlay = COUNTER_OVERLAY.instantiate()
 		tile.tile_sprite.add_child(overlay)
 		tile.tile_sprite.material_inheritors.append(overlay)
-		tile.tile_sprite.move_child(overlay,tile.tile_sprite.hole_sprite.get_index()+1)
+		tile.tile_sprite.move_child(overlay,tile.tile_sprite.base_sprite.get_index()+1)
+		
+		var hole_overlay = COUNTER_OVERLAY.instantiate()
+		tile.tile_sprite.hole_sprite.add_child(hole_overlay)
+		(tile.tile_sprite.hole_sprite as Node2D).clip_children = CanvasItem.CLIP_CHILDREN_AND_DRAW
+	
 	update_frame()
 	
 	tile.tile_face.draw.connect(_tile_face_pre_draw)
@@ -40,6 +45,7 @@ func update_frame() -> void :
 	var frame = Globals.TileStatusFrame.eternal
 	tile.tile_sprite.set_frame(frame)
 	overlay.texture = MASKS[tile.type]
+
 func update():
 	super()
 func clear():
