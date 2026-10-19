@@ -16,7 +16,7 @@ func get_save_data():
 	return s
 
 func set_status_tooltips():
-	status_tooltips = ["counter"]
+	status_tooltips = [ProverbPalace.EFFECTS.COUNTER]
 
 func get_next_number() -> int:
 	return wrapi(current_number + 1, 2, 10)
@@ -28,7 +28,7 @@ func get_tooltip_context():
 
 func apply_to_tile(tile: Tile, _real_tile: Tile, is_preview: bool, _is_preview_update: bool) -> void :
 	tile.set_face(face)
-	tile.add_status("counter")
+	tile.add_status(ProverbPalace.EFFECTS.COUNTER)
 	if not is_preview:
 		(tile.animation).play("pressed",-1,1.)
 		#tile.add_poofcloud(Color("#e18d99"),null,false)
@@ -44,5 +44,5 @@ func apply_to_tile(tile: Tile, _real_tile: Tile, is_preview: bool, _is_preview_u
 func is_tile_selectable(tile: Tile) -> bool:
 	return (
 		tile.is_face_modifiable() and 
-		!tile.has_harmful_status() and !tile.has_status("counter")
+		!tile.has_harmful_status() and !tile.has_status(ProverbPalace.EFFECTS.COUNTER)
 	)

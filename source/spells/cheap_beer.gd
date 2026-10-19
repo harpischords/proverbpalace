@@ -1,7 +1,7 @@
 extends TileModifierSpell
 
 func set_status_tooltips():
-	status_tooltips = ["mutagen"]
+	status_tooltips = ["proverbpalace:mutagen"]
 
 const POOFCLOUD = preload("res://source/effects/poofcloud_small.tscn")
 const BIG_POOFCLOUD = preload("res://source/effects/poofcloud.tscn")
@@ -22,7 +22,7 @@ static func create_mutagen_poofcloud(tile: Tile, big := false):
 	poofcloud.global_position = tile.global_position
 
 func apply_to_tile(tile: Tile, _real_tile: Tile, is_preview: bool, _is_preview_update: bool) -> void :
-	tile.add_status("mutagen")
+	tile.add_status("proverbpalace:mutagen")
 	
 	if is_preview:
 		return
@@ -37,7 +37,7 @@ func apply_to_tile(tile: Tile, _real_tile: Tile, is_preview: bool, _is_preview_u
 
 		await Game.timeout(0.16)
 
-		neighbor.add_status("mutagen")
+		neighbor.add_status("proverbpalace:mutagen")
 		create_mutagen_poofcloud(neighbor)
 		return
 

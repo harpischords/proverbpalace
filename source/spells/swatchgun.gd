@@ -9,7 +9,7 @@ func _use():
 	var apply_painted = get_tiles({
 		amount = 4, 
 		effect_priority = EFFECT_PRIORITY.STATUS_AND_FACE_ALLOW_NONPOSITIVE, 
-		exclude_effects = ["painted",TileStatus.HOLE], 
+		exclude_effects = ["proverbpalace:painted",TileStatus.HOLE], 
 	})
 
 	if len(apply_painted) == 0:
@@ -21,7 +21,7 @@ func _use():
 	rng.spell.shuffle(colors)
 	var i = 0
 	for tile in apply_painted:
-		tile.add_status("painted",colors[i])
+		tile.add_status("proverbpalace:painted",colors[i])
 		tile.animation.play("shake",-1,1.76)
 		if i == 0:
 			tile.apply_hole(false)

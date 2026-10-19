@@ -29,7 +29,7 @@ func _on_player_bruise_changed():
 		
 		player.intent_container.reset_intents()
 		player.display_intent()
-		ProverbPalaceMod.tile_manager.update_counter_intent(
+		ProverbPalace.tile_manager.update_counter_intent(
 				player.intent_container,
 				ProverbPalaceCustomIntent.COUNTER_INTENT,{damage=ProverbPalaceTileManager.stored_counterattack},null,true
 			)

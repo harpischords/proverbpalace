@@ -70,7 +70,7 @@ func _first_spawn(is_transform: = false) -> void:
 	current_color = rng.spell.randi_range(0, max_starting_color )
 
 func set_status_tooltips():
-	status_tooltips = ["counter"]
+	status_tooltips = [ProverbPalace.EFFECTS.COUNTER]
 
 func get_tooltip_context() -> Dictionary:
 	return super().merged(
@@ -91,7 +91,7 @@ func _use():
 	
 	AudioManager.play_sound(Sounds.FREEZER.VOX_FOREIGN_BODY)
 	for tile: Tile in word_builder.tiles:
-		tile.add_status("counter")
+		tile.add_status(ProverbPalace.EFFECTS.COUNTER)
 		tile.animation.play("shake")
 		AudioManager.play_sound(Sounds.GENERIC.APPLY_STATUS)
 		await Game.timeout(0.02)

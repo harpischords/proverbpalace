@@ -1,47 +1,52 @@
 @tool
 extends Mod
-class_name ProverbPalaceMod
+class_name ProverbPalace
 
 
 func is_coop_enabled() -> bool:
-	return ModLoader.mods.any(func (mod:ModData)->bool:return mod.id=="co-op")
+	return ModLoader.has_mod("co-op")
 
+const EFFECTS: Dictionary[String, String] = {
+	PAINTED = "proverbpalace:painted",
+	COUNTER = "proverbpalace:counter",
+	MUTAGEN = "proverbpalace:mutagen",
+}
 
 const SPELLS: Dictionary[String, String] = {
-	PDA = "pda",
-	VANILLA_ESSENCE = "vanilla_essence",
-	SD_CARD = "sd_card",
-	BLENDER = "blender",
+	PDA = "proverbpalace:pda",
+	VANILLA_ESSENCE = "proverbpalace:vanilla_essence",
+	SD_CARD = "proverbpalace:sd_card",
+	BLENDER = "proverbpalace:blender",
 	
-	PHOTO_ALBUM = "photo_album",
+	PHOTO_ALBUM = "proverbpalace:photo_album",
 	
-	DATAMOSH = "datamosh",
-	BOOSTER_SHOT = "booster_shot",
-	TOY_CAMERA = "toy_camera",
-	MILK = "milk",
-	ZIPTIES = "zipties",
-	GAYDAR = "gaydar",
-	COLD_CASE = "cold_case",
-	CAT_TAIL = "cat_tail",
-	BLT = "blt",
-	DISSENTER_HOTLINE = "dissenter_hotline",
-	SUBDOMAIN = "subdomain",
-	LCD_TWEEZERS = "lcd_tweezers",
-	DYNAMO = "dynamo",
-	SOFTBOILED = "softboiled",
-	BLOWOUT = "blowout",
-	POCKET_SNAKE = "pocket_snake",
-	HALO = "halo",
-	DISCOMBOBULATOR = "discombobulator",
-	BUBBLE_TAPE = "bubble_tape",
-	UNLIMITED_BACON = "unlimited_bacon",
-	CLIFFHANGER = "cliffhanger",
-	BRASS_KNUCKLES = "brass_knuckles",
-	CHEAP_BEER = "cheap_beer",
-	COLOR_BELT = "color_belt",
-	COUNTER_COUNTER = "counter_counter",
-	SEWING_NEEDLE = "sewing_needle",
-	SWATCHGUN = "swatchgun"
+	DATAMOSH = "proverbpalace:datamosh",
+	BOOSTER_SHOT = "proverbpalace:booster_shot",
+	TOY_CAMERA = "proverbpalace:toy_camera",
+	MILK = "proverbpalace:milk",
+	ZIPTIES = "proverbpalace:zipties",
+	GAYDAR = "proverbpalace:gaydar",
+	COLD_CASE = "proverbpalace:cold_case",
+	CAT_TAIL = "proverbpalace:cat_tail",
+	BLT = "proverbpalace:blt",
+	DISSENTER_HOTLINE = "proverbpalace:dissenter_hotline",
+	SUBDOMAIN = "proverbpalace:subdomain",
+	LCD_TWEEZERS = "proverbpalace:lcd_tweezers",
+	DYNAMO = "proverbpalace:dynamo",
+	SOFTBOILED = "proverbpalace:softboiled",
+	BLOWOUT = "proverbpalace:blowout",
+	POCKET_SNAKE = "proverbpalace:pocket_snake",
+	HALO = "proverbpalace:halo",
+	DISCOMBOBULATOR = "proverbpalace:discombobulator",
+	BUBBLE_TAPE = "proverbpalace:bubble_tape",
+	UNLIMITED_BACON = "proverbpalace:unlimited_bacon",
+	CLIFFHANGER = "proverbpalace:cliffhanger",
+	BRASS_KNUCKLES = "proverbpalace:brass_knuckles",
+	CHEAP_BEER = "proverbpalace:cheap_beer",
+	COLOR_BELT = "proverbpalace:color_belt",
+	COUNTER_COUNTER = "proverbpalace:counter_counter",
+	SEWING_NEEDLE = "proverbpalace:sewing_needle",
+	SWATCHGUN = "proverbpalace:swatchgun"
 	
 }
 
@@ -100,6 +105,69 @@ var SPELL_CATEGORIES: Dictionary[String, Array] = {
 	],
 }
 
+
+
+func register_callbacks(helper: CallbackHelper) -> void:
+	helper.add_callback(Callbacks.REGISTER_SPELLS.MOD_INIT,_register_spells,0)
+	helper.add_callback(Callbacks.REGISTER_EFFECTS.BASE,_register_effects,0)
+
+func _register_effects():
+	EffectRegistry.register(self,(EFFECTS.values()))
+
+func _register_spells():
+	
+	
+	SpellRegistry.register(self, (SPELLS.values()))
+	SpellRegistry.add_spells_to_categories(SPELL_CATEGORIES)
+	
+	var do_playtest_weights = FileAccess.file_exists("res://mods/proverbpalace/BOOST_SPELL_WEIGHTS.yes")
+	if !do_playtest_weights:
+		BASE_WEIGHT = 1.
+		PLAYTESTED_COEFF = 1.
+		UNPLAYTESTED_COEFF = 1.
+	if is_coop_enabled():
+		COOP_BAN_COEFF = 0.
+	
+	print_debug("PROVERB PALACE: FILLING SPELL POOL%s"%
+		" USING PLAYTEST WEIGHTS" if do_playtest_weights else ""
+	)
+	
+	var SPELL_POOL: Dictionary[String, float] = {
+		SPELLS.TOY_CAMERA: BASE_WEIGHT,
+		SPELLS.DATAMOSH: BASE_WEIGHT,
+		SPELLS.CAT_TAIL: BASE_WEIGHT,
+		SPELLS.GAYDAR: BASE_WEIGHT,
+		SPELLS.BOOSTER_SHOT: BASE_WEIGHT,
+		SPELLS.MILK: BASE_WEIGHT, #UNKILLED
+		SPELLS.ZIPTIES: BASE_WEIGHT,
+		SPELLS.COLD_CASE: BASE_WEIGHT,
+		SPELLS.BLT: BASE_WEIGHT*UNCOMMON_COEFF,
+		SPELLS.DISSENTER_HOTLINE: BASE_WEIGHT,
+		SPELLS.SUBDOMAIN: BASE_WEIGHT,
+		SPELLS.LCD_TWEEZERS: BASE_WEIGHT,
+		SPELLS.DYNAMO: BASE_WEIGHT,
+		SPELLS.BLOWOUT: BASE_WEIGHT,
+		SPELLS.POCKET_SNAKE: BASE_WEIGHT,
+		SPELLS.HALO: BASE_WEIGHT,
+		SPELLS.SOFTBOILED: BASE_WEIGHT,
+		SPELLS.SD_CARD: 0.,
+		SPELLS.VANILLA_ESSENCE: 0.,
+		SPELLS.PDA: 0.,
+		SPELLS.PHOTO_ALBUM: 0.,
+		SPELLS.BLENDER: 0.,
+		SPELLS.BUBBLE_TAPE: 0.,
+		SPELLS.DISCOMBOBULATOR: BASE_WEIGHT,
+		SPELLS.UNLIMITED_BACON: BASE_WEIGHT,
+		SPELLS.CLIFFHANGER: BASE_WEIGHT,
+		SPELLS.BRASS_KNUCKLES: BASE_WEIGHT,
+		SPELLS.CHEAP_BEER: BASE_WEIGHT,
+		SPELLS.COLOR_BELT: BASE_WEIGHT*UNPLAYTESTED_COEFF*COOP_BAN_COEFF,
+		SPELLS.COUNTER_COUNTER: BASE_WEIGHT*UNPLAYTESTED_COEFF*COOP_BAN_COEFF,
+		SPELLS.SEWING_NEEDLE: BASE_WEIGHT*UNPLAYTESTED_COEFF,
+		SPELLS.SWATCHGUN: BASE_WEIGHT*UNPLAYTESTED_COEFF*0.,
+	}
+	
+	SpellRegistry.add_spells_to_pool(SPELL_POOL)
 
 #static func _static_init():
 	#print("trying my best")
@@ -176,9 +244,6 @@ func _game_state_updated():
 			if Game.player.id == Globals.CHARACTERS.JUBILIST:
 				a.secret_id = Globals.SPELLS.GIFT_PUZZLE
 	pass
-func _post_mods_loaded() -> void :
-	pass
-
 
 func get_options_save_data() -> Dictionary:
 	return {}
@@ -219,58 +284,55 @@ func load_run_save_data(data: Dictionary) -> void :
 func get_save_data() -> Dictionary:
 	return {}
 
-func get_spell_ids() -> Array[String]:
-	return namespace_ids(SPELLS.values())
-	
-func get_spell_pool(category: String = "") -> Dictionary[String, float]:
-	var do_playtest_weights = FileAccess.file_exists("res://mods/proverbpalace/BOOST_SPELL_WEIGHTS.yes")
-	
-	if !do_playtest_weights:
-		BASE_WEIGHT = 1.
-		PLAYTESTED_COEFF = 1.
-		UNPLAYTESTED_COEFF = 1.
-	if is_coop_enabled():
-		COOP_BAN_COEFF = 0.
-	
-	print_debug("PROVERB PALACE: FILLING SPELL POOL%s"%
-		" USING PLAYTEST WEIGHTS" if do_playtest_weights else ""
-	)
-	
-	var SPELL_POOL: Dictionary[String, float] = {
-		SPELLS.TOY_CAMERA: BASE_WEIGHT,
-		SPELLS.DATAMOSH: BASE_WEIGHT,
-		SPELLS.CAT_TAIL: BASE_WEIGHT,
-		SPELLS.GAYDAR: BASE_WEIGHT,
-		SPELLS.BOOSTER_SHOT: BASE_WEIGHT,
-		SPELLS.MILK: BASE_WEIGHT, #UNKILLED
-		SPELLS.ZIPTIES: BASE_WEIGHT,
-		SPELLS.COLD_CASE: BASE_WEIGHT,
-		SPELLS.BLT: BASE_WEIGHT*UNCOMMON_COEFF,
-		SPELLS.DISSENTER_HOTLINE: BASE_WEIGHT,
-		SPELLS.SUBDOMAIN: BASE_WEIGHT,
-		SPELLS.LCD_TWEEZERS: BASE_WEIGHT,
-		SPELLS.DYNAMO: BASE_WEIGHT,
-		SPELLS.BLOWOUT: BASE_WEIGHT,
-		SPELLS.POCKET_SNAKE: BASE_WEIGHT,
-		SPELLS.HALO: BASE_WEIGHT,
-		SPELLS.SOFTBOILED: BASE_WEIGHT,
-		SPELLS.SD_CARD: 0.,
-		SPELLS.VANILLA_ESSENCE: 0.,
-		SPELLS.PDA: 0.,
-		SPELLS.PHOTO_ALBUM: 0.,
-		SPELLS.BLENDER: 0.,
-		SPELLS.BUBBLE_TAPE: 0.,
-		SPELLS.DISCOMBOBULATOR: BASE_WEIGHT,
-		SPELLS.UNLIMITED_BACON: BASE_WEIGHT,
-		SPELLS.CLIFFHANGER: BASE_WEIGHT,
-		SPELLS.BRASS_KNUCKLES: BASE_WEIGHT,
-		SPELLS.CHEAP_BEER: BASE_WEIGHT,
-		SPELLS.COLOR_BELT: BASE_WEIGHT*UNPLAYTESTED_COEFF*COOP_BAN_COEFF,
-		SPELLS.COUNTER_COUNTER: BASE_WEIGHT*UNPLAYTESTED_COEFF*COOP_BAN_COEFF,
-		SPELLS.SEWING_NEEDLE: BASE_WEIGHT*UNPLAYTESTED_COEFF,
-		SPELLS.SWATCHGUN: BASE_WEIGHT*UNPLAYTESTED_COEFF*0.,
-	}
-	
-	var category_pool: Array = SPELL_CATEGORIES.get(category, [])
-	var pool := SpellData.get_filtered_spell_pool(SPELL_POOL, category_pool)
-	return namespace_dictionary_ids(pool)
+#func get_spell_pool(category: String = "") -> Dictionary[String, float]:
+	#var do_playtest_weights = FileAccess.file_exists("res://mods/proverbpalace/BOOST_SPELL_WEIGHTS.yes")
+	#
+	#if !do_playtest_weights:
+		#BASE_WEIGHT = 1.
+		#PLAYTESTED_COEFF = 1.
+		#UNPLAYTESTED_COEFF = 1.
+	#if is_coop_enabled():
+		#COOP_BAN_COEFF = 0.
+	#
+	#print_debug("PROVERB PALACE: FILLING SPELL POOL%s"%
+		#" USING PLAYTEST WEIGHTS" if do_playtest_weights else ""
+	#)
+	#
+	#var SPELL_POOL: Dictionary[String, float] = {
+		#SPELLS.TOY_CAMERA: BASE_WEIGHT,
+		#SPELLS.DATAMOSH: BASE_WEIGHT,
+		#SPELLS.CAT_TAIL: BASE_WEIGHT,
+		#SPELLS.GAYDAR: BASE_WEIGHT,
+		#SPELLS.BOOSTER_SHOT: BASE_WEIGHT,
+		#SPELLS.MILK: BASE_WEIGHT, #UNKILLED
+		#SPELLS.ZIPTIES: BASE_WEIGHT,
+		#SPELLS.COLD_CASE: BASE_WEIGHT,
+		#SPELLS.BLT: BASE_WEIGHT*UNCOMMON_COEFF,
+		#SPELLS.DISSENTER_HOTLINE: BASE_WEIGHT,
+		#SPELLS.SUBDOMAIN: BASE_WEIGHT,
+		#SPELLS.LCD_TWEEZERS: BASE_WEIGHT,
+		#SPELLS.DYNAMO: BASE_WEIGHT,
+		#SPELLS.BLOWOUT: BASE_WEIGHT,
+		#SPELLS.POCKET_SNAKE: BASE_WEIGHT,
+		#SPELLS.HALO: BASE_WEIGHT,
+		#SPELLS.SOFTBOILED: BASE_WEIGHT,
+		#SPELLS.SD_CARD: 0.,
+		#SPELLS.VANILLA_ESSENCE: 0.,
+		#SPELLS.PDA: 0.,
+		#SPELLS.PHOTO_ALBUM: 0.,
+		#SPELLS.BLENDER: 0.,
+		#SPELLS.BUBBLE_TAPE: 0.,
+		#SPELLS.DISCOMBOBULATOR: BASE_WEIGHT,
+		#SPELLS.UNLIMITED_BACON: BASE_WEIGHT,
+		#SPELLS.CLIFFHANGER: BASE_WEIGHT,
+		#SPELLS.BRASS_KNUCKLES: BASE_WEIGHT,
+		#SPELLS.CHEAP_BEER: BASE_WEIGHT,
+		#SPELLS.COLOR_BELT: BASE_WEIGHT*UNPLAYTESTED_COEFF*COOP_BAN_COEFF,
+		#SPELLS.COUNTER_COUNTER: BASE_WEIGHT*UNPLAYTESTED_COEFF*COOP_BAN_COEFF,
+		#SPELLS.SEWING_NEEDLE: BASE_WEIGHT*UNPLAYTESTED_COEFF,
+		#SPELLS.SWATCHGUN: BASE_WEIGHT*UNPLAYTESTED_COEFF*0.,
+	#}
+	#
+	#var category_pool: Array = SPELL_CATEGORIES.get(category, [])
+	#var pool := SpellData.get_filtered_spell_pool(SPELL_POOL, category_pool)
+	#return namespace_dictionary_ids(pool)

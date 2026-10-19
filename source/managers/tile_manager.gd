@@ -8,7 +8,7 @@ const TILE_WRAPAROUND_ATLAS = preload("res://mods/proverbpalace/arte/tiles/tile_
 const MUTAGEN_BUBBLES = preload("res://mods/proverbpalace/source/bubble/mutagen_bubbles.tscn")
 
 static var stored_counterattack := 0
-
+const EFFECTS = ProverbPalace.EFFECTS
 
 
 func tile_counts_as_epsilon(tile: Tile) -> bool:
@@ -100,7 +100,7 @@ func set_mutagen_enabled_for_sprite(sprite: TileSprite, enabled: bool):
 	
 
 func fix_mutagen_visuals(tile: Tile, is_in_word := true):
-	if !tile.has_status("mutagen"):
+	if !tile.has_status(ProverbPalace.EFFECTS.MUTAGEN):
 		set_mutagen_enabled_for_sprite(tile.tile_sprite,false)
 		return
 	set_mutagen_enabled_for_sprite(tile.tile_sprite,true)
@@ -125,12 +125,12 @@ const MUTAGEN_EXCLUSIVE_STATUSES_LESSER = [
 
 
 func fix_mutagen_tile(tile: Tile, is_in_word := true):
-	if !tile.has_status("mutagen"):
+	if !tile.has_status(ProverbPalace.EFFECTS.MUTAGEN):
 		return
 	
 	
 	if tile.has_any_effect(MUTAGEN_EXCLUSIVE_STATUSES_GREATER):
-		tile.remove_status("mutagen")
+		tile.remove_status(ProverbPalace.EFFECTS.MUTAGEN)
 		return
 	
 	for status in MUTAGEN_EXCLUSIVE_STATUSES_LESSER:
@@ -202,7 +202,7 @@ func update_counter_intent(intent_container,intent, context = null, tiles = null
 
 func get_counter_tiles(tiles:Array[Tile]=Game.word_builder.tiles) -> Array[Tile]:
 	return tiles.filter(
-		func(tile: Tile): return tile.has_status("counter") and tile.get_value() > 0
+		func(tile: Tile): return tile.has_status(EFFECTS.COUNTER) and tile.get_value() > 0
 	)
 
 func get_counter_amount(tiles:Array[Tile]=Game.word_builder.tiles) -> int:
