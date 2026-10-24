@@ -60,7 +60,9 @@ static func get_color_value(sample_color: Colors) -> Color:
 	)
 
 static func get_color_name(c: Colors):
-	return StringManager.get_string("status/painted/%s"%(Colors.keys()[int(c)].to_lower()))
+	var color_name = Colors.keys()[int(c)].to_lower()
+	return (EffectRegistry.get_data("proverbpalace:painted").get_string_group().get_string(color_name))
+	
 
 var deboss_color :
 	get():
@@ -81,7 +83,7 @@ func _tile_face_pre_draw() -> void:
 	#)
 	#tile.tile_face.value_color = "#FFFFFF"
 	tile.tile_face.set_deboss_color(
-		deboss_color
+		Color(deboss_color,tile.tile_face.deboss_highlight_color.a)
 	)
 
 
@@ -103,7 +105,7 @@ func clear():
 	var node = tile.tile_sprite.get_node_or_null("PaintedOverlay")
 	if node:
 		tile.tile_sprite.material_inheritors.erase(node.sprite)
-		node.name = "fuck"
+		node.name = "i would never name something fuck"
 		node.queue_free()
 		node.hide()
 

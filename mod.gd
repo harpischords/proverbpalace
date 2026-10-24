@@ -10,6 +10,7 @@ const EFFECTS: Dictionary[String, String] = {
 	PAINTED = "proverbpalace:painted",
 	COUNTER = "proverbpalace:counter",
 	MUTAGEN = "proverbpalace:mutagen",
+	GLASS = "proverbpalace:glass",
 }
 
 const SPELLS: Dictionary[String, String] = {
@@ -46,7 +47,8 @@ const SPELLS: Dictionary[String, String] = {
 	COLOR_BELT = "proverbpalace:color_belt",
 	COUNTER_COUNTER = "proverbpalace:counter_counter",
 	SEWING_NEEDLE = "proverbpalace:sewing_needle",
-	SWATCHGUN = "proverbpalace:swatchgun"
+	SWATCHGUN = "proverbpalace:swatchgun",
+	BRILLIANT_MIRROR = "proverbpalace:brilliant_mirror",
 	
 }
 
@@ -89,6 +91,7 @@ var SPELL_CATEGORIES: Dictionary[String, Array] = {
 		SPELLS.COLOR_BELT,
 		SPELLS.COUNTER_COUNTER,
 		SPELLS.SWATCHGUN,
+		SPELLS.BRILLIANT_MIRROR,
 	],
 	Globals.SPELL_CATEGORY.DEFENSIVE: [
 		SPELLS.TOY_CAMERA,
@@ -110,6 +113,10 @@ var SPELL_CATEGORIES: Dictionary[String, Array] = {
 func register_callbacks(helper: CallbackHelper) -> void:
 	helper.add_callback(Callbacks.REGISTER_SPELLS.MOD_INIT,_register_spells,0)
 	helper.add_callback(Callbacks.REGISTER_EFFECTS.BASE,_register_effects,0)
+	helper.add_callback(Callbacks.TILE_GET_VALUE.EARLY,_tile_get_value_early,0)
+
+func _tile_get_value_early():
+	pass
 
 func _register_effects():
 	EffectRegistry.register(self,(EFFECTS.values()))
@@ -165,6 +172,7 @@ func _register_spells():
 		SPELLS.COUNTER_COUNTER: BASE_WEIGHT*UNPLAYTESTED_COEFF*COOP_BAN_COEFF,
 		SPELLS.SEWING_NEEDLE: BASE_WEIGHT*UNPLAYTESTED_COEFF,
 		SPELLS.SWATCHGUN: BASE_WEIGHT*UNPLAYTESTED_COEFF*0.,
+		SPELLS.BRILLIANT_MIRROR: BASE_WEIGHT*UNPLAYTESTED_COEFF*0.,
 	}
 	
 	SpellRegistry.add_spells_to_pool(SPELL_POOL)

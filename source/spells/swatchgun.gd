@@ -2,7 +2,7 @@ extends Spell
 
 
 func set_status_tooltips():
-	status_tooltips = ["painted",TileStatus.HOLE]
+	status_tooltips = ["proverbpalace:painted",TileStatus.HOLE]
 
 
 func _use():

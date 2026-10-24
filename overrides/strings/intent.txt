@@ -6,3 +6,19 @@
 	:description:
 		Any incoming hits will cause you to attack for {damage} bonus damage.
 		Scales with damage and defense multipliers.
+
+:glass:
+	:name:
+		Glass
+	
+	:description:
+		{:description_normal: not damaging}
+		{:description_damaging: if damaging}
+	
+	:description_normal:
+		Glass tiles will shatter on turn end.
+	
+	:description_damaging:
+		On turn end, glass tiles will shatter and deal {damage} damage.
+	
+	

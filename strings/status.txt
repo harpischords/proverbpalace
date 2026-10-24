@@ -15,6 +15,45 @@
 	:flags:
 		no_faceless_effect
 
+
+:glass:
+	:name:
+		Glass
+	
+	:name_intact:
+		Glass
+	
+	:tile_name:
+		{"Cracked" if broken_stage 1}{"Broken" if broken_stage 2} Glass
+	
+	:description:
+		{:description_broken: if broken}
+		{:description_intact: not broken}
+	
+	:will_damage_on_turn_end:
+		+{glass_damage} damage taken on turn end.
+	
+	:damage_part:
+		{:will_damage_on_turn_end: not glass_damage 0}
+	
+	:description_broken:
+		Unusable. Removed {:status/in_x_turns: with turns remaining_turns}.
+		{:damage_part: if broken_stage 1}
+	
+	:description_intact:
+		{:description_intact_not_dealing_damage: if glass_damage 0}
+		{:description_intact_and_dealing_damage: not glass_damage 0}
+	
+	:description_intact_not_dealing_damage:
+		 Breaks when falling, becoming useless.
+	
+	:description_intact_and_dealing_damage:
+		Breaks when falling, becoming useless and dealing +{glass_damage} damage.
+	
+	:flags:
+		shared neutral override_default_title
+	
+
 :counter:
 	:name:
 		Counter

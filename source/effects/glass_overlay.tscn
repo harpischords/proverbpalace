@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://rxaxwpsr5jx5"]
+
+[ext_resource type="Script" uid="uid://bq3si51nyajc8" path="res://mods/proverbpalace/source/effects/glass_overlay.gd" id="1_nlbi0"]
+[ext_resource type="Shader" uid="uid://tdc1n1abxryj" path="res://mods/proverbpalace/source/effects/glass_overlay.gdshader" id="2_tyslu"]
+[ext_resource type="Texture2D" uid="uid://4kqb7wdplqcd" path="res://mods/proverbpalace/arte/tiles/glass_tile.png" id="3_60bxd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n4y2n"]
+shader = ExtResource("2_tyslu")
+
+[node name="GlassOverlay" type="Node2D" unique_id=1070880568]
+use_parent_material = true
+script = ExtResource("1_nlbi0")
+
+[node name="Shatter" type="Sprite2D" parent="." unique_id=203245638]
+texture = ExtResource("3_60bxd")
+hframes = 3
+vframes = 2
+frame = 3
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=37494979]
+self_modulate = Color(1, 1, 1, 0.85882354)
+material = SubResource("ShaderMaterial_n4y2n")
+texture = ExtResource("3_60bxd")
+hframes = 3
+vframes = 2

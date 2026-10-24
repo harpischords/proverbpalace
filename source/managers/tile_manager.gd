@@ -4,6 +4,10 @@ class_name ProverbPalaceTileManager
 
 const EPSILON = "ԑ"
 const GAMMA = "γ"
+const DASH = "―"
+const DOT = "🞍"
+
+
 const TILE_WRAPAROUND_ATLAS = preload("res://mods/proverbpalace/arte/tiles/tile_wraparound_atlas.png")
 const MUTAGEN_BUBBLES = preload("res://mods/proverbpalace/source/bubble/mutagen_bubbles.tscn")
 
@@ -115,6 +119,7 @@ func fix_mutagen_visuals(tile: Tile, is_in_word := true):
 const MUTAGEN_EXCLUSIVE_STATUSES_GREATER = [
 	Globals.TileEffect.POSITIVE_FACE,
 	Globals.TileStatus.HOLE,
+	Globals.TileStatus.SCREW,
 	Globals.TileStatus.MYSTERY
 ]
 const MUTAGEN_EXCLUSIVE_STATUSES_LESSER = [
@@ -140,10 +145,22 @@ func fix_mutagen_tile(tile: Tile, is_in_word := true):
 	tile.tile_sprite.set_frame(26)
 	
 
+const GLASS_EXCLUSIVE_STATUSES = [
+	Globals.TileStatus.HOLE,
+	Globals.TileStatus.SCREW,
+	
+]
+
+func fix_glass_tile(tile: Tile):
+	for status in GLASS_EXCLUSIVE_STATUSES:
+		if tile.has_status(status):
+			tile.remove_status("proverbpalace:glass")
+			return
 func _on_tile_updated(tile: Tile):
 	#if !do_state_update_callback:
 		#retur
 	fix_mutagen_tile(tile)
+	fix_glass_tile(tile)
 	fix_epsilon_faces(tile,!tile.in_word() or !tile.word_builder.can_submit_tiles())
 
 const CUSTOM_SHADER = preload("res://mods/proverbpalace/overrides/source/shaders/tile_sprite.gdshader")
@@ -178,7 +195,7 @@ func _on_tile_added(tile: Tile):
 var connected_word_builder := false
 const CUSTOM_INTENT = preload("res://mods/proverbpalace/source/custom_intent.tscn")
 
-func update_counter_intent(intent_container,intent, context = null, tiles = null, create_if_not_found = false):
+func update_custom_intent(intent_container,intent, context = null, tiles = null, create_if_not_found = false):
 	if context == null:
 		context = {}
 
@@ -205,12 +222,24 @@ func get_counter_tiles(tiles:Array[Tile]=Game.word_builder.tiles) -> Array[Tile]
 		func(tile: Tile): return tile.has_status(EFFECTS.COUNTER) and tile.get_value() > 0
 	)
 
+func get_glass_tiles(tiles:Array[Tile]=Game.tile_board.get_tiles()) -> Array[Tile]:
+	return tiles.filter(
+		func(tile: Tile): return tile.has_status(EFFECTS.GLASS) and (
+			(tile.get_status(EFFECTS.GLASS) as GlassStatus).will_shatter_on_turn_end()
+		) and (
+			!tile.will_be_submitted()
+		)
+	)
+
 func get_counter_amount(tiles:Array[Tile]=Game.word_builder.tiles) -> int:
 	var word_builder: WordBuilder = Game.word_builder
 	var amt := 0
 	for tile in get_counter_tiles(tiles):
 		amt += tile.get_value()
 	return ceili(amt*last_crit_multiplier)
+	
+func get_glass_amount(tiles:Array[Tile]=Game.tile_board.get_tiles()) -> int:
+	return len(get_glass_tiles(tiles))
 
 var last_crit_multiplier := 1.
 
@@ -223,9 +252,23 @@ func _on_word_builder_finished_updating_stats(words):
 	var counter_amt := get_counter_amount()
 	
 	if counter_amt > 0:
-		update_counter_intent(
+		update_custom_intent(
 			word_builder.intent_container,
 			ProverbPalaceCustomIntent.COUNTER_INTENT,{damage=counter_amt},get_counter_tiles(),true
+		)
+	
+	var glass_amt := get_glass_amount()
+	if GlassStatus.glass_damage > 0:
+		glass_amt *= GlassStatus.glass_damage
+	
+	if glass_amt > 0:
+		
+		update_custom_intent(
+			word_builder.intent_container,
+			ProverbPalaceCustomIntent.GLASS_INTENT,{
+				damage="%d"%[glass_amt],
+				damaging=GlassStatus.glass_damage>0
+			},get_glass_tiles(),true
 		)
 	
 	try_add_paint_warning(words)
@@ -235,7 +278,7 @@ func try_add_paint_warning(words: WordList):
 	var word_builder: WordBuilder = Game.word_builder
 	if word_builder.word_hint.warning_key == "":
 		for tile in word_builder.tiles:
-			var painted = tile.get_status("painted") as PaintedStatus
+			var painted = tile.get_status("proverbpalace:painted") as PaintedStatus
 			
 			if painted and painted.invalidates_word():
 				pass

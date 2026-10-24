@@ -54,7 +54,7 @@
 		rare
 	
 	:max_charge:
-		2
+		4
 	
 	:label:
 		Paint + hole
@@ -121,6 +121,8 @@
 	:label:
 		Double O7
 
+
+
 :color_belt:
 	:name:
 		{:name_normal: not quotes}
@@ -136,9 +138,8 @@
 		Parry ({current_length}, {current_value})
 		
 	:description:
-		Convert tiles in a spelled word to counter, then submit it.
-		Word must have exactly {current_length} length and {current_value} total value.
-		Upgrades after each battle.
+		Convert tiles in a spelled word to counter, then submit it. Word must have exactly {current_length} length and {current_value} total value.
+		This spell upgrades after each battle.
 		
 	:charge_category:
 		uncommon
@@ -557,6 +558,22 @@
 	:flags:
 		removes_word
 
+:brilliant_mirror:
+	:name:
+		Brilliant Mirror
+	
+	:label:
+		Glass {face upper}, crit {face_mirrored upper}
+	
+	:description:
+		Convert a tile to a glass {face upper}, then create a crit {face_mirrored upper} in the opposite position on the board.
+
+	:charge_category:
+		common
+	
+	:max_charge:
+		2
+	
 :spellmaster:
 	:name:
 		Spellmaster
