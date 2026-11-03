@@ -15,6 +15,58 @@
 	:flags:
 		no_faceless_effect
 
+# these tiles have a red and a blue variant but
+# i don't think the color needs to be mentioned anywhere in the tooltip
+:toggle:
+	:name:
+		{:name_specific: if specific}
+		{:name_generic: not specific}
+	
+	:name_generic:
+		Toggle
+	
+	:name_specific:
+		{:name_on: if toggled}
+		{:name_off: not toggled}
+	
+	:name_on:
+		Toggle (On)
+	
+	:name_off:
+		Toggle (Off)
+	
+	:description:
+		{:description_specific: if specific}
+		{:description_generic: not specific}
+		
+	:description_generic:
+		Toggles between being usable and unusable.
+		Changes state on any spell use.
+	
+	:description_specific:
+		{:description_on: if toggled}
+		{:description_off: not toggled}
+	
+	:description_on:
+		Toggles between being usable and unusable.
+		Will become unusable on any spell use.
+		
+	:description_off:
+		Toggles between being usable and unusable.
+		Will become usable on any spell use.
+		
+	:flags:
+		neutral
+
+:primordial:
+	:name:
+		Primordial
+	
+	:description:
+		3x tile value if the entire row is played.
+	
+	:flags:
+		no_faceless_effect positive
 
 :glass:
 	:name:

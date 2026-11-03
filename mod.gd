@@ -111,12 +111,9 @@ var SPELL_CATEGORIES: Dictionary[String, Array] = {
 
 
 func register_callbacks(helper: CallbackHelper) -> void:
-	helper.add_callback(Callbacks.REGISTER_SPELLS.MOD_INIT,_register_spells,0)
-	helper.add_callback(Callbacks.REGISTER_EFFECTS.BASE,_register_effects,0)
-	helper.add_callback(Callbacks.TILE_GET_VALUE.EARLY,_tile_get_value_early,0)
+	helper.add_callback(Callbacks.REGISTER_SPELLS.MOD,_register_spells,0)
+	helper.add_callback(Callbacks.REGISTER_EFFECTS.MOD,_register_effects,0)
 
-func _tile_get_value_early():
-	pass
 
 func _register_effects():
 	EffectRegistry.register(self,(EFFECTS.values()))

@@ -563,10 +563,10 @@
 		Brilliant Mirror
 	
 	:label:
-		Glass {face upper}, crit {face_mirrored upper}
+		Glass {face upper} + {face_mirrored upper}
 	
 	:description:
-		Convert a tile to a glass {face upper}, then create a crit {face_mirrored upper} in the opposite position on the board.
+		Convert a tile to a glass {face upper}, then create a glass crit {face_mirrored upper} in the opposite position on the board.
 
 	:charge_category:
 		common

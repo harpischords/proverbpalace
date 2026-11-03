@@ -45,6 +45,7 @@ var broken_stage := 0
 var face_when_broken := ""
 var slashed_faces_when_broken := []
 
+
 const GLASS_DAMAGE_SCALAR := 1
 
 func get_save_data():

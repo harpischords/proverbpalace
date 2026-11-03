@@ -4,8 +4,8 @@ class_name ProverbPalaceTileManager
 
 const EPSILON = "ԑ"
 const GAMMA = "γ"
-const DASH = "―"
-const DOT = "🞍"
+
+const MORSE_FACES := ["🞍","―"]
 
 
 const TILE_WRAPAROUND_ATLAS = preload("res://mods/proverbpalace/arte/tiles/tile_wraparound_atlas.png")

@@ -1,6 +1,37 @@
 extends "res://source/library/word_utility.gd"
 
 
+const MORSE_CODE_TABLE := {
+	"――🞍――":"ñ",
+	
+	"🞍―":"a",
+	"―🞍🞍🞍":"b",
+	"―🞍―🞍":"c",
+	"―🞍🞍":"d",
+	"🞍":"e",
+	"🞍🞍―🞍":"f",
+	"――🞍":"g",
+	"🞍🞍🞍🞍":"h",
+	"🞍🞍":"i",
+	"🞍―――":"j",
+	"―🞍―":"k",
+	"🞍―🞍🞍":"l",
+	"――":"m",
+	"―――":"o",
+	"🞍――🞍":"p",
+	"――🞍―":"q",
+	"🞍―🞍":"r",
+	"🞍🞍🞍":"s",
+	"―":"t",
+	"🞍🞍―":"u",
+	"🞍🞍🞍―":"v",
+	"🞍――":"w",
+	"―🞍🞍―":"x",
+	"―🞍――":"y",
+	"――🞍🞍":"z",
+}
+
+
 
 func resolve_tile_words(tiles, priority_words: = PackedStringArray(), depriority_words: = PackedStringArray(), priority_flag: WordDictionary.WordFlags = WordDictionary.WordFlags.NONE) -> WordList:
 	var full_word_list = WordList.new()
@@ -15,7 +46,7 @@ func resolve_tile_words(tiles, priority_words: = PackedStringArray(), depriority
 	var cluster_indices_hit = 0
 	
 	for tile: Tile in tiles:
-		if tile.has_status("mutagen"):
+		if tile.has_status(ProverbPalace.EFFECTS.MUTAGEN):
 			if !last_tile_was_mutagen:
 				mutagen_clusters.append([])
 				cluster_index += 1
@@ -28,7 +59,7 @@ func resolve_tile_words(tiles, priority_words: = PackedStringArray(), depriority
 		if tile.is_space():
 			tile_sets.append([])
 			continue
-		if tile.has_status("mutagen"):
+		if tile.has_status(ProverbPalace.EFFECTS.MUTAGEN):
 			var cluster_i = mutagen_clusters_by_tile[tile]
 			if cluster_i == cluster_indices_hit:
 				var cluster = mutagen_clusters[cluster_i]

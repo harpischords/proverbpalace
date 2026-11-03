@@ -5,13 +5,23 @@ func register_callbacks(helper: CallbackHelper) -> void :
 	helper.add_callback(
 		Callbacks.TILE_BOARD_TURN_END.REMOVE,
 		trigger_turn_end_effect.bind(true),
-		Callbacks.BASE_PRIORITY.FIRST+6
+		Callbacks.BASE_GAME_PRIORITY.FIRST+6
 	)
 	helper.add_callback(
-		Callbacks.TILE_BOARD_TURN_END.REMOVE,
+		Callbacks.TILE_BOARD_TURN_END.POST_REMOVE,
 		trigger_turn_end_effect.bind(false),
-		Callbacks.BASE_PRIORITY.FIRST+5
+		Callbacks.BASE_GAME_PRIORITY.FIRST+5
 	)
+
+func get_tiles(tile_board: TileBoard = Game.tile_board, rng: RNG = Game.random, parameters: Dictionary = {}) -> Array[Tile]:
+	parameters.merge({include_effects = [id], rng = rng, custom_tile_check=
+	func(tile:Tile, _p):
+		var s := (tile.get_status(id) as GlassStatus)
+		if s == null:
+			return false
+		return s.broken_stage != 0
+	})
+	return tile_board.get_tiles(parameters)
 
 func trigger_turn_end_effect(tile_board: TileBoard, only_remove_expired := false) -> void :
 	var tiles: = get_active_tiles(tile_board)
