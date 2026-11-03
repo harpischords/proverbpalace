@@ -1,0 +1,70 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://c7mrxbxp5swgb"]
+
+[ext_resource type="Shader" uid="uid://cyt6yabh2mt5s" path="res://mods/proverbpalace/source/enemies/ourobureaus_color_correction.gdshader" id="1_2rasj"]
+
+[sub_resource type="Curve" id="Curve_2rasj"]
+_data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_rewa3"]
+curve = SubResource("Curve_2rasj")
+
+[sub_resource type="Curve" id="Curve_v3nhb"]
+_data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ccq1g"]
+curve = SubResource("Curve_v3nhb")
+
+[sub_resource type="Curve" id="Curve_3np0l"]
+_data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_8qxel"]
+curve = SubResource("Curve_3np0l")
+
+[sub_resource type="Curve" id="Curve_tvdmk"]
+_data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_etol4"]
+curve = SubResource("Curve_tvdmk")
+
+[sub_resource type="Curve" id="Curve_x1tu6"]
+_data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ykqm3"]
+curve = SubResource("Curve_x1tu6")
+
+[sub_resource type="Curve" id="Curve_ldw3s"]
+_data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_816to"]
+curve = SubResource("Curve_ldw3s")
+
+[sub_resource type="Curve" id="Curve_58xf5"]
+_data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_bbx0s"]
+curve = SubResource("Curve_58xf5")
+
+[sub_resource type="Curve" id="Curve_lqybg"]
+_data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_p6m0u"]
+curve = SubResource("Curve_lqybg")
+
+[resource]
+shader = ExtResource("1_2rasj")
+shader_parameter/rgb_curve = SubResource("CurveTexture_816to")
+shader_parameter/red_curve = SubResource("CurveTexture_ykqm3")
+shader_parameter/green_curve = SubResource("CurveTexture_8qxel")
+shader_parameter/blue_curve = SubResource("CurveTexture_ccq1g")
+shader_parameter/alpha_curve = SubResource("CurveTexture_rewa3")
+shader_parameter/hue_curve = SubResource("CurveTexture_etol4")
+shader_parameter/sat_curve = SubResource("CurveTexture_bbx0s")
+shader_parameter/value_curve = SubResource("CurveTexture_p6m0u")

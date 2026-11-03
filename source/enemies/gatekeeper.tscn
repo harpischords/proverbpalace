@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bgyfrofydllcp"]
+
+[ext_resource type="PackedScene" uid="uid://cbdk6hv7wu8im" path="res://source/battle_unit/enemy.tscn" id="1_i5gx1"]
+[ext_resource type="Script" uid="uid://c6stdc3bbcf1t" path="res://mods/proverbpalace/source/enemies/gatekeeper.gd" id="2_i5gx1"]
+[ext_resource type="PackedScene" uid="uid://do8vfv8nrgfb2" path="res://mods/proverbpalace/source/enemies/sprites/ourobureaus_sprite.tscn" id="3_i5gx1"]
+
+[node name="Ourobureaus" unique_id=1126369289 instance=ExtResource("1_i5gx1")]
+script = ExtResource("2_i5gx1")
+
+[node name="Sprite" parent="." index="0" unique_id=1356876798 instance=ExtResource("3_i5gx1")]

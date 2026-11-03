@@ -1,0 +1,157 @@
+[gd_scene format=3 uid="uid://do8vfv8nrgfb2"]
+
+[ext_resource type="PackedScene" uid="uid://dmg180a1myio" path="res://source/battle_unit/battle_unit_sprite.tscn" id="1_6sok8"]
+[ext_resource type="Script" uid="uid://dqd1ksmwmypmy" path="res://mods/proverbpalace/source/enemies/sprites/ourobureaus_sprite.gd" id="2_6sok8"]
+[ext_resource type="PackedScene" uid="uid://cwgxm2sx00xxq" path="res://source/characters/sprites/lexicographer_sprite.tscn" id="3_jchba"]
+[ext_resource type="Shader" uid="uid://brk5kbrsrnsel" path="res://mods/proverbpalace/source/enemies/sprites/ourobureaus_line.gdshader" id="3_o3tey"]
+[ext_resource type="Script" uid="uid://ctw0tm76scc8e" path="res://mods/proverbpalace/source/enemies/sprites/ourobureausline.gd" id="4_o3tey"]
+[ext_resource type="Script" uid="uid://b2hrgulomnrwl" path="res://mods/proverbpalace/source/enemies/sprites/head_marker.gd" id="6_sw3l1"]
+
+[sub_resource type="Animation" id="Animation_jchba"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/HeadMarker:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot/HeadMarker:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-407, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Line2D:frame_offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Pivot/HeadMarker:curve_looping_anim")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_sw3l1"]
+resource_name = "appear"
+length = 3.000007
+step = 0.06666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Line2D:frame_offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.5333333),
+"transitions": PackedFloat32Array(2.6390162, 1),
+"update": 0,
+"values": [0, 4]
+}
+
+[sub_resource type="Animation" id="Animation_wvqgx"]
+resource_name = "idle"
+length = 5.5
+loop_mode = 1
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/HeadMarker:curve_looping_anim")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Line2D:frame_offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5, 3, 4.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0, 5, 5, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_x837l"]
+_data = {
+&"RESET": SubResource("Animation_jchba"),
+&"appear": SubResource("Animation_sw3l1"),
+&"idle": SubResource("Animation_wvqgx")
+}
+
+[sub_resource type="Gradient" id="Gradient_o3tey"]
+interpolation_mode = 2
+interpolation_color_space = 2
+offsets = PackedFloat32Array(0, 0.027624309, 0.9005525, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.24301437, 0.1569944, 0.22785237, 1, 0.65867585, 0.78552264, 0.7966247, 1, 0.8680058, 0.92404574, 0.9241265, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_sw3l1"]
+gradient = SubResource("Gradient_o3tey")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o3tey"]
+shader = ExtResource("3_o3tey")
+shader_parameter/gradient = SubResource("GradientTexture1D_sw3l1")
+shader_parameter/outline = Vector4(0, 0, 0, 1)
+
+[node name="BattleUnitSprite" unique_id=1356876798 instance=ExtResource("1_6sok8")]
+script = ExtResource("2_6sok8")
+metadata/_edit_horizontal_guides_ = [-584.0]
+
+[node name="LexicographerSprite" parent="." index="0" unique_id=844123301 instance=ExtResource("3_jchba")]
+visible = false
+position = Vector2(-520, -4)
+
+[node name="AnimPlayer" parent="." index="5" unique_id=1026464875]
+libraries/ = SubResource("AnimationLibrary_x837l")
+autoplay = &"idle"
+
+[node name="Line2D" type="Line2D" parent="." index="7" unique_id=1619763595]
+material = SubResource("ShaderMaterial_o3tey")
+points = PackedVector2Array(-126.61842, 49.142403, -154.17102, 37.27418, -173.94351, 14.712074, -169.76016, -14.994821, -145.49565, -32.636627, -117.704216, -43.934235, -91.42721, -58.409004, -79.81061, -86.06863, -109.64519, -89.21473, -114.446785, -59.60148)
+default_color = Color(1, 1, 1, 0)
+script = ExtResource("4_o3tey")
+reverse_draw_order = true
+frame_offset = 4
+
+[node name="Pivot" type="Node2D" parent="." index="8" unique_id=1736014628]
+position = Vector2(-77, -49)
+
+[node name="HeadMarker" type="Marker2D" parent="Pivot" index="0" unique_id=620411203]
+unique_name_in_owner = true
+position = Vector2(0, -407)
+script = ExtResource("6_sw3l1")
+approach_dist = 59.58
+curve_scale = Vector2(406.08, 254.9)
+curve_scale_secondary = Vector2(0.415, 0.25)
+parametric_curve_t = 1140.268392445051
